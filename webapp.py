@@ -38,7 +38,7 @@ headers = {
 BASE_URL = 'https://api.spotify.com/v1/'
 
 
-st.header("Spotify Song Reccommender")
+st.header("Spotify Song Recommender")
 st.write("Directions: Enter the name of both the artist and song. We will throw a similar song back at you.")
 user_artist = st.text_input('Enter an artist')
 user_song = st.text_input('Enter a song')
@@ -182,13 +182,8 @@ if len(user_artist) & len(user_song) > 0:
     # Query Using kneighbors
     __, neigh_index = knn_loader.kneighbors(wrangled_features_tracks_df)
 
-    # Instantiate song list
-    song_list = []
+    # Instantiate track_id list for embedder
     track_id = []
-
-    for i in neigh_index[0][:3]:
-        song_list.append(
-            f"{df_rec_lookup['name'][i]} by {df_rec_lookup['artists'][i]}")
 
     for i in neigh_index[0][:3]:
         track_id.append(df_rec_lookup['id'][i])
