@@ -1,7 +1,7 @@
 #import joblib
 import re
 #import feature_engine
-import sklearn
+#import sklearn
 import numpy as np
 import streamlit as st
 import streamlit.components.v1 as components
