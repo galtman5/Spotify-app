@@ -184,7 +184,8 @@ if len(user_artist) & len(user_song) > 0:
 
     # Instantiate track_id list for embedder
     track_id = []
-
+    st.write(neigh_index)
+    
     for i in neigh_index[0][:3]:
         track_id.append(df_rec_lookup['id'][i])
 
