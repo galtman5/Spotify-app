@@ -38,7 +38,7 @@ headers = {
 BASE_URL = 'https://api.spotify.com/v1/'
 
 
-st.header("Spotify Song Recommender")
+st.header("Spotify Song Reccommender")
 st.write("Directions: Enter the name of both the artist and song. We will throw a similar song back at you.")
 user_artist = st.text_input('Enter an artist')
 user_song = st.text_input('Enter a song')
@@ -123,56 +123,81 @@ def year_cleaner(year):
     return year[:4]
 
 
-if len(user_artist) & len(user_song) > 0:
-    try:
-        url = 'search?q=artist:' + name_cleaner(user_artist) + \
-            '%20track:' + user_song + '&type=track'
+def get_track_response():
+    return requests.get(BASE_URL + url, headers=headers)
 
-        # get the track id
-        track_response = requests.get(BASE_URL + url, headers=headers)
-        track_id = track_response.json()['tracks']['items'][0]['id']
 
-        # get the track features
-        url_features = 'audio-features/' + track_id
-        feature_response = requests.get(
-            BASE_URL + url_features, headers=headers)
-    except:
-        st.error("Check the spelling! The artist or song name might be misspelled")
+def get_track_id():
+    track_response = get_track_response()
+    track_id = track_response.json()['tracks']['items'][0]['id']
+    return track_id
 
-    # make list of features and the metrics
-    feature_metrics = []
+
+def get_track_features():
+    url_features = 'audio-features/' + get_track_id()
+    return requests.get(
+        BASE_URL + url_features, headers=headers)
+
+
+url = 'search?q=artist:' + name_cleaner(user_artist) + \
+    '%20track:' + user_song + '&type=track'
+
+
+def create_features_list():
     features = []
 
-    # create features list and feature_metrics list
-    for key, value in feature_response.json().items():
-        feature_metrics.append(value)
+    for key, value in get_track_features().json().items():
         features.append(key)
         if key == 'tempo':
             break
 
     # add time_signature metric
     features.append('time_signature')
-    feature_metrics.append(feature_response.json()['time_signature'])
 
     # add the release year metric
     features.append('year')
+
     # only keep the year from the date. "2007-09-11" -> "2007"
-    clean_year = year_cleaner(track_response.json()[
+    clean_year = year_cleaner(get_track_response().json()[
         'tracks']['items'][0]['album']['release_date'])
-    feature_metrics.append(clean_year)
 
     # add explicit metric
     features.append('explicit')
-    feature_metrics.append(track_response.json()[
+    return features
+
+
+def create_metrics_list():
+    feature_metrics = []
+    for key, value in get_track_features().json().items():
+        feature_metrics.append(value)
+        if key == 'tempo':
+            break
+
+    feature_metrics.append(get_track_features().json()['time_signature'])
+
+    clean_year = year_cleaner(get_track_response().json()[
+        'tracks']['items'][0]['album']['release_date'])
+    feature_metrics.append(clean_year)
+
+    feature_metrics.append(get_track_response().json()[
         'tracks']['items'][0]['explicit'])
 
-    # create dataframe
-    features_tracks_df = pd.DataFrame(data=[feature_metrics], columns=features)
+    return feature_metrics
+
+
+# main
+if len(user_artist) & len(user_song) > 0:
+    # create dataframe with the f
+    feature_metrics = create_metrics_list()
+    features = create_features_list()
+
+    features_tracks_df = pd.DataFrame(
+        data=[feature_metrics], columns=features)
     wrangled_features_tracks_df = wrangle(features_tracks_df)
 
     # Load pickled model and recommendations lookup dataframe
-    knn_loader = joblib.load('ml/knn_model.joblib')
-    file = 'data/df_rec_lookup.zip'
+    knn_loader = joblib.load('knn_model.joblib')
+    file = 'df_rec_lookup.zip'
 
     # Load unwrangled dataset to match the song.
     with ZipFile(file, 'r') as zip:
@@ -182,17 +207,19 @@ if len(user_artist) & len(user_song) > 0:
     # Query Using kneighbors
     __, neigh_index = knn_loader.kneighbors(wrangled_features_tracks_df)
 
-    # Instantiate track_id list for embedder
-    track_id = []
-    
+    # Instantiate song list
+    song_list = []
+    rec_id = []
+
     for i in neigh_index[0][:3]:
-        track_id.append(df_rec_lookup['id'][i])
+        rec_id.append(df_rec_lookup['id'][i])
 
     # create spotify embedder for first 3 songs that are reccomended
     for i in range(3):
-        html_string = '''<iframe src="https://open.spotify.com/embed/track/''' + track_id[i] + '''"
+        html_string = '''<iframe src="https://open.spotify.com/embed/track/''' + rec_id[i] + '''"
         width="230" height="320" frameborder="0" 
         allowtransparency="true" allow="encrypted-media"></iframe>'''
         st.markdown(html_string, unsafe_allow_html=True)
 
-    st.dataframe(wrangled_features_tracks_df)
+    st.dataframe(features_tracks_df)
+    st.dataframe(features_tracks_df)
