@@ -38,7 +38,7 @@ headers = {
 BASE_URL = 'https://api.spotify.com/v1/'
 
 
-st.header("Spotify Song Reccommender")
+st.header("Spotify Song Recommender")
 st.write("Directions: Enter the name of both the artist and song. We will throw a similar song back at you.")
 user_artist = st.text_input('Enter an artist')
 user_song = st.text_input('Enter a song')
