@@ -3,6 +3,6 @@ streamlit==0.87.0
 requests==2.25.1
 numpy==1.20.3
 feature_engine==1.1.1
-re>=2.2.1
+regex==2.2.1
 pandas==1.2.4
 scikit-learn
