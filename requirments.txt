@@ -5,4 +5,4 @@ sklearn==0.24.2
 feature_engine==1.1.1
 joblib==1.0.1
 re==2.2.1
-matplotlib==3.4.2
+
