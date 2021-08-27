@@ -9,7 +9,6 @@ import requests
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from feature_engine.encoding import OneHotEncoder as fe_OneHotEncoder
-from scale import wrangle
 
 CLIENT_ID = '44e889b5f36f4da49f3abfaec8d5dba2'
 CLIENT_SECRET = 'e6c5d8615afc46349a572570abbf211d'
