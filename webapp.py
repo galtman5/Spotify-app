@@ -1,15 +1,14 @@
 import joblib
 import re
-from sklearn.preprocessing import MinMaxScaler
-from feature_engine.encoding import OneHotEncoder as fe_OneHotEncoder
 import feature_engine
 import sklearn
-import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from feature_engine.encoding import OneHotEncoder as fe_OneHotEncoder
 from scale import wrangle
 
 CLIENT_ID = '44e889b5f36f4da49f3abfaec8d5dba2'
