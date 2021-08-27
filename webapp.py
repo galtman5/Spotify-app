@@ -1,16 +1,7 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
 import pandas as pd
-import joblib
-import sklearn
-import feature_engine
-from feature_engine.encoding import OneHotEncoder as fe_OneHotEncoder
-from sklearn.preprocessing import MinMaxScaler
-import re
-from scale import wrangle
 
 CLIENT_ID = '44e889b5f36f4da49f3abfaec8d5dba2'
 CLIENT_SECRET = 'e6c5d8615afc46349a572570abbf211d'
@@ -98,6 +89,8 @@ if len(user_artist) & len(user_song) > 0:
 
     # create dataframe
     features_tracks_df = pd.DataFrame(data=[feature_metrics], columns=features)
+    
+    # wrangle function yet to be implemented
     #features_tracks_df = wrangle(features_tracks_df)
 
     # create spotify embedder
