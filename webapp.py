@@ -197,7 +197,7 @@ if len(user_artist) & len(user_song) > 0:
 
     # Load pickled model and recommendations lookup dataframe
     knn_loader = joblib.load('ml/knn_model.joblib')
-    file = 'df_rec_lookup.zip'
+    file = 'data/df_rec_lookup.zip'
 
     # Load unwrangled dataset to match the song.
     with ZipFile(file, 'r') as zip:
