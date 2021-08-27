@@ -222,4 +222,3 @@ if len(user_artist) & len(user_song) > 0:
         st.markdown(html_string, unsafe_allow_html=True)
 
     st.dataframe(features_tracks_df)
-    st.dataframe(features_tracks_df)
