@@ -1,7 +1,16 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
 import pandas as pd
+import joblib
+import sklearn
+import feature_engine
+from feature_engine.encoding import OneHotEncoder as fe_OneHotEncoder
+from sklearn.preprocessing import MinMaxScaler
+import re
+from scale import wrangle
 
 CLIENT_ID = '44e889b5f36f4da49f3abfaec8d5dba2'
 CLIENT_SECRET = 'e6c5d8615afc46349a572570abbf211d'
@@ -32,12 +41,8 @@ BASE_URL = 'https://api.spotify.com/v1/'
 
 st.header("Spotify Song Reccommender")
 st.write("Directions: Enter the name of both the artist and song. We will throw a similar song back at you.")
-
 user_artist = st.text_input('Enter an artist')
 user_song = st.text_input('Enter a song')
-
-#artist = 'kanye+west'
-#track = 'stronger'
 
 
 def name_cleaner(track):
@@ -49,21 +54,26 @@ def year_cleaner(year):
 
 
 if len(user_artist) & len(user_song) > 0:
-    url = 'search?q=artist:' + name_cleaner(user_artist) + \
-        '%20track:' + user_song + '&type=track'
+    try:
+        url = 'search?q=artist:' + name_cleaner(user_artist) + \
+            '%20track:' + user_song + '&type=track'
 
-    # get the track id
-    track_response = requests.get(BASE_URL + url, headers=headers)
-    track_id = track_response.json()['tracks']['items'][0]['id']
+        # get the track id
+        track_response = requests.get(BASE_URL + url, headers=headers)
+        track_id = track_response.json()['tracks']['items'][0]['id']
 
-    # get the track features
-    url_features = 'audio-features/' + track_id
-    feature_response = requests.get(BASE_URL + url_features, headers=headers)
+        # get the track features
+        url_features = 'audio-features/' + track_id
+        feature_response = requests.get(
+            BASE_URL + url_features, headers=headers)
+    except:
+        st.error("Check the spelling! The artist or song name might be misspelled")
 
     # make list of features and the metrics
     feature_metrics = []
     features = []
 
+    # create features list and feature_metrics list
     for key, value in feature_response.json().items():
         feature_metrics.append(value)
         features.append(key)
@@ -88,6 +98,7 @@ if len(user_artist) & len(user_song) > 0:
 
     # create dataframe
     features_tracks_df = pd.DataFrame(data=[feature_metrics], columns=features)
+    #features_tracks_df = wrangle(features_tracks_df)
 
     # create spotify embedder
     html_string = '''<iframe src="https://open.spotify.com/embed/track/''' + track_id + '''"
