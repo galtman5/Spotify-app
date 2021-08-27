@@ -184,7 +184,6 @@ if len(user_artist) & len(user_song) > 0:
 
     # Instantiate track_id list for embedder
     track_id = []
-    st.write(neigh_index)
     
     for i in neigh_index[0][:3]:
         track_id.append(df_rec_lookup['id'][i])
@@ -196,5 +195,4 @@ if len(user_artist) & len(user_song) > 0:
         allowtransparency="true" allow="encrypted-media"></iframe>'''
         st.markdown(html_string, unsafe_allow_html=True)
 
-    st.dataframe(features_tracks_df)
     st.dataframe(wrangled_features_tracks_df)
