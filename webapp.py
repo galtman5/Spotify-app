@@ -1,4 +1,5 @@
 import joblib
+from zipfile import ZipFile
 import re
 import feature_engine
 import sklearn
@@ -167,12 +168,36 @@ if len(user_artist) & len(user_song) > 0:
 
     # create dataframe
     features_tracks_df = pd.DataFrame(data=[feature_metrics], columns=features)
-    features_tracks_df = wrangle(features_tracks_df)
+    wrangled_features_tracks_df = wrangle(features_tracks_df)
 
-    # create spotify embedder
-    html_string = '''<iframe src="https://open.spotify.com/embed/track/''' + track_id + '''"
-    width="300" height="380" frameborder="0" 
-    allowtransparency="true" allow="encrypted-media"></iframe>'''
+    # Load pickled model and recommendations lookup dataframe
+    knn_loader = joblib.load('knn_model.joblib')
+    file = 'df_rec_lookup.zip'
 
-    st.markdown(html_string, unsafe_allow_html=True)
+    # Load unwrangled dataset to match the song.
+    with ZipFile(file, 'r') as zip:
+        zip.extractall()
+    df_rec_lookup = pd.read_csv('df_rec_lookup.csv')
+
+    # Query Using kneighbors
+    __, neigh_index = knn_loader.kneighbors(wrangled_features_tracks_df)
+
+    # Instantiate song list
+    song_list = []
+    track_id = []
+
+    for i in neigh_index[0][:3]:
+        song_list.append(
+            f"{df_rec_lookup['name'][i]} by {df_rec_lookup['artists'][i]}")
+
+    for i in neigh_index[0][:3]:
+        track_id.append(df_rec_lookup['id'][i])
+
+    # create spotify embedder for first 3 songs that are reccomended
+    for i in range(3):
+        html_string = '''<iframe src="https://open.spotify.com/embed/track/''' + track_id[i] + '''"
+        width="230" height="320" frameborder="0" 
+        allowtransparency="true" allow="encrypted-media"></iframe>'''
+        st.markdown(html_string, unsafe_allow_html=True)
+
     st.dataframe(features_tracks_df)
