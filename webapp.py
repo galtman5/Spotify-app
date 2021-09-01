@@ -38,7 +38,7 @@ headers = {
 BASE_URL = 'https://api.spotify.com/v1/'
 
 
-st.header("Spotify Song Recommender")
+st.header("Spotify Song Reccommender")
 st.write("Directions: Enter the name of both the artist and song. We will throw a similar song back at you.")
 user_artist = st.text_input('Enter an artist')
 user_song = st.text_input('Enter a song')
@@ -196,8 +196,8 @@ if len(user_artist) & len(user_song) > 0:
     wrangled_features_tracks_df = wrangle(features_tracks_df)
 
     # Load pickled model and recommendations lookup dataframe
-    knn_loader = joblib.load('ml/knn_model.joblib')
-    file = 'data/df_rec_lookup.zip'
+    knn_loader = joblib.load('knn_model.joblib')
+    file = 'df_rec_lookup.zip'
 
     # Load unwrangled dataset to match the song.
     with ZipFile(file, 'r') as zip:
@@ -221,4 +221,20 @@ if len(user_artist) & len(user_song) > 0:
         allowtransparency="true" allow="encrypted-media"></iframe>'''
         st.markdown(html_string, unsafe_allow_html=True)
 
+    st.write("The metrics of your song:")
     st.dataframe(features_tracks_df)
+
+jon = '''<h1>Jonathan Krier</h1><a href="https://www.linkedin.com/in/jonathankrier/">Linkedin</a>'''
+yousef = '''<h1>Youssef Al-Yakoob</h1><a href="https://www.linkedin.com/in/youssefalyakoob/">Linkedin</a><br><a href="https://github.com/yalyakoob">Github</a>'''
+ivan = '''<h1>Ivan Mihailov</h1><a href="https://www.linkedin.com/in/ivan-mihailov/">Linkedin</a>'''
+guy = '''<h1>Guy Altman</h1><a href="https://www.linkedin.com/in/guy-altman-970b70213/">Linkedin</a><br><a href="https://github.com/galtman5">Github</a>'''
+
+st.sidebar.title("The Team")
+st.sidebar.write("")
+st.sidebar.write("")
+st.sidebar.write("")
+
+st.sidebar.markdown(jon, unsafe_allow_html=True)
+st.sidebar.markdown(yousef, unsafe_allow_html=True)
+st.sidebar.markdown(ivan, unsafe_allow_html=True)
+st.sidebar.markdown(guy, unsafe_allow_html=True)
