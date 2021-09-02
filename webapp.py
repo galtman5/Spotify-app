@@ -225,9 +225,9 @@ if len(user_artist) & len(user_song) > 0:
     st.dataframe(features_tracks_df)
 
 jon = '''<h1>Jonathan Krier</h1><a href="https://www.linkedin.com/in/jonathankrier/">Linkedin</a>'''
-yousef = '''<h1>Youssef Al-Yakoob</h1><a href="https://www.linkedin.com/in/youssefalyakoob/">Linkedin</a><br><a href="https://github.com/yalyakoob">Github</a>'''
-ivan = '''<h1>Ivan Mihailov</h1><a href="https://www.linkedin.com/in/ivan-mihailov/">Linkedin</a>'''
-guy = '''<h1>Guy Altman</h1><a href="https://www.linkedin.com/in/guy-altman-970b70213/">Linkedin</a><br><a href="https://github.com/galtman5">Github</a>'''
+yousef = '''<h1>Youssef Al-Yakoob</h1><a href="https://www.linkedin.com/in/youssefalyakoob/">Linkedin</a><br><a href="https://github.com/yalyakoob">GitHub</a>'''
+ivan = '''<h1>Ivan Mihailov</h1><a href="https://www.linkedin.com/in/ivan-mihailov/">Linkedin</a><br><a href="https://github.com/ivan-mihailov">GitHub</a>'''
+guy = '''<h1>Guy Altman</h1><a href="https://www.linkedin.com/in/guy-altman-970b70213/">Linkedin</a><br><a href="https://github.com/galtman5">GitHub</a>'''
 
 st.sidebar.title("The Team")
 st.sidebar.write("(open links in new tab)")
