@@ -224,10 +224,10 @@ if len(user_artist) & len(user_song) > 0:
     st.write("The metrics of your song:")
     st.dataframe(features_tracks_df)
 
-jon = '''<h1>Jonathan Krier</h1><a href="https://www.linkedin.com/in/jonathankrier/">Linkedin</a>'''
-yousef = '''<h1>Youssef Al-Yakoob</h1><a href="https://www.linkedin.com/in/youssefalyakoob/">Linkedin</a><br><a href="https://github.com/yalyakoob">GitHub</a>'''
-ivan = '''<h1>Ivan Mihailov</h1><a href="https://www.linkedin.com/in/ivan-mihailov/">Linkedin</a><br><a href="https://github.com/ivan-mihailov">GitHub</a>'''
-guy = '''<h1>Guy Altman</h1><a href="https://www.linkedin.com/in/guy-altman-970b70213/">Linkedin</a><br><a href="https://github.com/galtman5">GitHub</a>'''
+jon = '''<h1>Jonathan Krier</h1><a href="https://www.linkedin.com/in/jonathankrier/" target="_blank">Linkedin</a>'''
+yousef = '''<h1>Youssef Al-Yakoob</h1><a href="https://www.linkedin.com/in/youssefalyakoob/" target="_blank">Linkedin</a><br><a href="https://github.com/yalyakoob" target="_blank">GitHub</a>'''
+ivan = '''<h1>Ivan Mihailov</h1><a href="https://www.linkedin.com/in/ivan-mihailov/" target="_blank">Linkedin</a><br><a href="https://github.com/ivan-mihailov" target="_blank">GitHub</a>'''
+guy = '''<h1>Guy Altman</h1><a href="https://www.linkedin.com/in/guy-altman-970b70213/" target="_blank">Linkedin</a><br><a href="https://github.com/galtman5" target="_blank">GitHub</a>'''
 
 st.sidebar.title("The Team")
 st.sidebar.write("(open links in new tab)")
