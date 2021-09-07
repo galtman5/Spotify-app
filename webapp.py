@@ -202,7 +202,7 @@ if len(user_artist) & len(user_song) > 0:
     # Load unwrangled dataset to match the song.
     with ZipFile(file, 'r') as zip:
         zip.extractall()
-    df_rec_lookup = pd.read_csv('df_rec_lookup.csv')
+    df_rec_lookup = pd.read_csv('data/df_rec_lookup.csv')
 
     # Query Using kneighbors
     __, neigh_index = knn_loader.kneighbors(wrangled_features_tracks_df)
