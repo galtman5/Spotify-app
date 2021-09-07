@@ -230,7 +230,6 @@ ivan = '''<h1>Ivan Mihailov</h1><a href="https://www.linkedin.com/in/ivan-mihail
 guy = '''<h1>Guy Altman</h1><a href="https://www.linkedin.com/in/guy-altman-970b70213/" target="_blank">LinkedIn</a><br><a href="https://github.com/galtman5" target="_blank">GitHub</a>'''
 
 st.sidebar.title("The Team")
-st.sidebar.write("(open links in new tab)")
 st.sidebar.write("")
 st.sidebar.write("")
 st.sidebar.write("")
